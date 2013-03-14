@@ -2,7 +2,7 @@
 resolver = "2"
 members = ["projects/*"]
 default-members = [
-    "projects/julia-set",
+    "projects/mandelbrot",
 ]
 exclude = [
     "projects/.DS_Store",
