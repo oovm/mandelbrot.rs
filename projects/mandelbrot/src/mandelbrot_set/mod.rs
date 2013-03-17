@@ -1,3 +1,4 @@
+use std::ops::Div;
 use image::{ImageBuffer, RgbaImage};
 use num::Complex;
 
@@ -29,13 +30,16 @@ impl MandelbrotSet {
 
 impl MandelbrotSet {
     pub fn render(&self, width: u32, height: u32) -> RgbaImage {
+        let w = width.div(2) as f32;
+        let h = height.div(2) as f32;
         let mut buffer = ImageBuffer::new(width, height);
-        let tx = self.center.re - self.zoom.recip();
-        let ty = self.center.im - self.zoom.recip();
+        let pt = self.zoom.recip() / h;
+        let tx = self.center.re - pt * w;
+        let ty = self.center.im + pt * h;
         for (x, y, pixel) in buffer.enumerate_pixels_mut() {
-            let dx = (x as f32 / height as f32) / self.zoom;
-            let dy = (y as f32 / height as f32) / self.zoom;
-            let t = self.escape(Complex::new(tx + dx, ty + dy));
+            let dx = pt * x as f32;
+            let dy = pt * y as f32;
+            let t = self.escape(Complex::new(tx + dx, ty - dy));
             *pixel = crate::julia_set::color((2.0 * t + 0.5) % 1.0);
         }
         buffer

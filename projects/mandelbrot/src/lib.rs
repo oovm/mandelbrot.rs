@@ -6,6 +6,9 @@
 
 mod julia_set;
 mod mandelbrot_set;
+mod mandelbrot_teardrop;
+
+
 
 mod errors;
 

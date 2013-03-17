@@ -1,4 +1,4 @@
-use julia_set::MandelbrotSet;
+use mandelbrot::MandelbrotSet;
 
 #[test]
 fn ready() {
@@ -10,7 +10,7 @@ fn main() {
     let image_width = 800;
     let image_height = 600;
 
-    let m = MandelbrotSet::default().with_max_iterations(512).with_zoom(1.0);
+    let m = MandelbrotSet::default().with_max_iterations(200).with_zoom(0.1);
     let image_buffer = m.render(image_width, image_height);
     image_buffer.save("mandelbrot.png").unwrap();
 
