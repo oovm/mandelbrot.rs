@@ -2,7 +2,7 @@ use std::ops::Div;
 use image::{ImageBuffer, Rgb, Rgba, RgbaImage};
 use num::Complex;
 
-pub trait CanvasRender {
+pub trait CanvasRenderer {
     fn center_x(&self) -> f32;
     fn center_y(&self) -> f32;
     fn zoom_reciprocal(&self) -> f32;

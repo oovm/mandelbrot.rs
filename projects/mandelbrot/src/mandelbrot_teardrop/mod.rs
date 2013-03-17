@@ -1,19 +1,21 @@
 use std::ops::Div;
-use image::{ImageBuffer, RgbaImage};
+use image::{Rgba};
 use num::Complex;
+use crate::CanvasRenderer;
 use crate::palette::EscapeSpeed;
 
 #[derive(Copy, Clone, Debug)]
 pub struct MandelbrotTeardrop {
     pub center: Complex<f32>,
     pub max_iterations: u32,
+    pub tint_magnification: f32,
     pub power: f32,
     pub zoom: f32,
 }
 
 impl Default for MandelbrotTeardrop {
     fn default() -> Self {
-        Self { center: Complex::new(1.24, 0.0), max_iterations: 128, power: 2.0, zoom: 0.48 }
+        Self { center: Complex::new(-0.75, 0.0), max_iterations: 128, tint_magnification: 1.0, power: 2.0, zoom: 0.75 }
     }
 }
 
@@ -24,38 +26,47 @@ impl MandelbrotTeardrop {
     pub fn with_max_iterations(self, iterations: u32) -> MandelbrotTeardrop {
         Self { max_iterations: iterations, ..self }
     }
+    pub fn with_tint_coefficient(self, tint_coefficient: f32) -> MandelbrotTeardrop {
+        Self { tint_magnification: tint_coefficient, ..self }
+    }
     pub fn with_zoom(self, zoom: f32) -> MandelbrotTeardrop {
         Self { zoom, ..self }
     }
 }
-//
-// impl MandelbrotTeardrop {
-//     pub fn render(&self, width: u32, height: u32) -> RgbaImage {
-//         let w = width.div(2) as f32;
-//         let h = height.div(2) as f32;
-//         let mut buffer = ImageBuffer::new(width, height);
-//         let pt = self.zoom.recip() / h;
-//         let tx = self.center.re - pt * w;
-//         let ty = self.center.im + pt * h;
-//         for (x, y, pixel) in buffer.enumerate_pixels_mut() {
-//             let dx = pt * x as f32;
-//             let dy = pt * y as f32;
-//             let t = self.escape(Complex::new(tx + dx, ty - dy));
-//             *pixel = crate::julia_set::color((2.0 * t + 0.5) % 1.0);
-//         }
-//         buffer
-//     }
-//     pub fn escape(&self, c: Complex<f32>) -> EscapeSpeed {
-//         let mut z = Complex::default();
-//         let mut i = 0;
-//         while i < self.max_iterations && z.norm() < 32.0 {
-//             z = z.powf(self.power) + 1.0 / c;
-//             i += 1;
-//         }
-//         EscapeSpeed {
-//             point: Default::default(),
-//             iterations: 0,
-//             is_escaped: false,
-//         }
-//     }
-// }
+
+
+impl CanvasRenderer for MandelbrotTeardrop {
+    fn center_x(&self) -> f32 {
+        self.center.re
+    }
+
+    fn center_y(&self) -> f32 {
+        self.center.im
+    }
+
+    fn zoom_reciprocal(&self) -> f32 {
+        self.zoom.recip()
+    }
+
+    fn render_pixel(&self, c: Complex<f32>) -> Rgba<u8> {
+        self.escape(c).tint_by_max((self.max_iterations as f32).div(self.tint_magnification))
+    }
+}
+
+impl MandelbrotTeardrop {
+    pub fn escape(&self, c: Complex<f32>) -> EscapeSpeed {
+        let mut z = Complex::default();
+        let mut i = 0;
+        while i < self.max_iterations && z.norm() < 32.0 {
+            z = z.powf(self.power) + 1.0 / c;
+            i += 1;
+        }
+        EscapeSpeed {
+            point: z,
+            iterations: i,
+            is_escaped: z.norm() >= 32.0,
+        }
+    }
+}
+
+

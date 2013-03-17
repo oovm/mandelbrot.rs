@@ -1,7 +1,7 @@
 use std::ops::Div;
 use image::{Rgba};
 use num::Complex;
-use crate::CanvasRender;
+use crate::CanvasRenderer;
 use crate::palette::EscapeSpeed;
 
 #[derive(Copy, Clone, Debug)]
@@ -35,7 +35,7 @@ impl MandelbrotSet {
 }
 
 
-impl CanvasRender for MandelbrotSet {
+impl CanvasRenderer for MandelbrotSet {
     fn center_x(&self) -> f32 {
         self.center.re
     }

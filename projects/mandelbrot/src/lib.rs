@@ -13,8 +13,9 @@ mod palette;
 mod errors;
 
 pub use crate::{
-    palette::{CanvasRender, EscapeSpeed},
+    palette::{CanvasRenderer, EscapeSpeed},
     errors::{Error, Result},
+    julia_set::JuliaSet,
     mandelbrot_set::MandelbrotSet,
     mandelbrot_teardrop::MandelbrotTeardrop
 };
