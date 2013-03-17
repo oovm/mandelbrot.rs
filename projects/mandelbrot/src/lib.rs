@@ -7,12 +7,14 @@
 mod julia_set;
 mod mandelbrot_set;
 mod mandelbrot_teardrop;
-
+mod palette;
 
 
 mod errors;
 
 pub use crate::{
+    palette::{CanvasRender, EscapeSpeed},
     errors::{Error, Result},
     mandelbrot_set::MandelbrotSet,
+    mandelbrot_teardrop::MandelbrotTeardrop
 };

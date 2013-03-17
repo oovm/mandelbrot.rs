@@ -1,25 +1,25 @@
-use mandelbrot::MandelbrotSet;
+use mandelbrot::{CanvasRender, MandelbrotSet, MandelbrotTeardrop};
 
 #[test]
 fn ready() {
     println!("it works!")
 }
 
+const MAX_ITERATIONS: u32 = 256;
+const IMAGE_WIDTH: u32 = 1600 /4 ;
+const IMAGE_HEIGHT: u32 = 900 /4 ;
+
+
 #[test]
-fn main() {
-    let image_width = 800;
-    let image_height = 600;
-
-    let m = MandelbrotSet::default().with_max_iterations(200).with_zoom(0.1);
-    let image_buffer = m.render(image_width, image_height);
+fn draw_mandelbrot() {
+    let m = MandelbrotSet::default().with_max_iterations(MAX_ITERATIONS).with_tint_coefficient(4.0);
+    let image_buffer = m.render(IMAGE_WIDTH, IMAGE_HEIGHT);
     image_buffer.save("mandelbrot.png").unwrap();
-
-    // let mut image_buffer = ImageBuffer::new(image_width, image_height);
-    // for (x, y, pixel) in image_buffer.enumerate_pixels_mut() {
-    //     let u = x as f32 / image_height as f32;
-    //     let v = y as f32 / image_height as f32;
-    //     let t = julia(2.5 * (u - 0.5) - 1.4, 2.5 * (v - 0.5));
-    //     *pixel = color((2.0 * t + 0.5) % 1.0);
-    // }
-    // image_buffer.save("julia.png").unwrap();
 }
+
+// #[test]
+// fn draw_teardrop() {
+//     let m = MandelbrotTeardrop::default().with_max_iterations(MAX_ITERATIONS);
+//     let image_buffer = m.render(IMAGE_WIDTH, IMAGE_HEIGHT);
+//     image_buffer.save("teardrop.png").unwrap();
+// }

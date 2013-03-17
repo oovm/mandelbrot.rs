@@ -12,6 +12,7 @@ exclude = ["package.json", "tests/**"]
 
 [dependencies]
 num = "0.4.1"
+indicatif = "0.17.7"
 image = { version = "0.24.7", features = [] }
 
 [dev-dependencies]

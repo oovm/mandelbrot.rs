@@ -1,7 +1,26 @@
-use image::{ImageBuffer, Rgb, Rgba, RgbaImage};
-use num::{complex::ComplexFloat, Complex, Signed};
-use std::cmp::min;
+use image::{ Rgb, Rgba, };
+use num::{complex::ComplexFloat, Complex};
 
+
+
+pub struct JuliaSet {
+    pub center: Complex<f32>,
+    pub max_iterations: u32,
+    pub power: f32,
+    pub zoom: f32,
+}
+
+impl JuliaSet {
+    pub fn with_center(self, x: f32, y: f32) -> Self {
+        Self { center: Complex::new(x, y), ..self }
+    }
+    pub fn with_max_iterations(self, iterations: u32) -> JuliaSet {
+        Self { max_iterations: iterations, ..self }
+    }
+    pub fn with_zoom(self, zoom: f32) -> JuliaSet {
+        Self { zoom, ..self }
+    }
+}
 
 
 fn julia(x: f32, y: f32) -> f32 {
@@ -16,16 +35,3 @@ fn julia(x: f32, y: f32) -> f32 {
     return (i as f32 - z.norm().log2().log2()) / (iterations as f32);
 }
 
-pub fn color(depth: f32) -> Rgba<u8> {
-    let a = Rgb([0.5, 0.5, 0.5]);
-    let b = Rgb([0.5, 0.5, 0.5]);
-    let c = Rgb([1.0, 1.0, 1.0]);
-    let d = Rgb([0.0, 0.10, 0.20]);
-    let r = b.0[0] * (6.28318 * (c.0[0] * depth + d.0[0])).cos() + a.0[0];
-    let g = b.0[1] * (6.28318 * (c.0[1] * depth + d.0[1])).cos() + a.0[1];
-    let b = b.0[2] * (6.28318 * (c.0[2] * depth + d.0[2])).cos() + a.0[2];
-    // if !r.is_sign_positive() || !g.is_sign_positive() || !b.is_sign_positive() {
-    //     return Rgba([0, 0, 0, 0]);
-    // }
-    Rgba([(255.0 * r) as u8, (255.0 * g) as u8, (255.0 * b) as u8, 255])
-}
