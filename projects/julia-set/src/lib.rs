@@ -5,7 +5,11 @@
 #![doc(html_favicon_url = "https://raw.githubusercontent.com/oovm/shape-rs/dev/projects/images/Trapezohedron.svg")]
 
 mod julia_set;
+mod mandelbrot_set;
 
 mod errors;
 
-pub use crate::errors::{Error, Result};
+pub use crate::{
+    errors::{Error, Result},
+    mandelbrot_set::MandelbrotSet,
+};
