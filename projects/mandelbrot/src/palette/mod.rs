@@ -3,45 +3,45 @@ use image::{ImageBuffer, Rgb, Rgba, RgbaImage};
 use num::Complex;
 
 pub trait CanvasRenderer {
-    fn center_x(&self) -> f32;
-    fn center_y(&self) -> f32;
-    fn zoom_reciprocal(&self) -> f32;
+    fn center_x(&self) -> f64;
+    fn center_y(&self) -> f64;
+    fn zoom_reciprocal(&self) -> f64;
     fn render(&self, width: u32, height: u32) -> RgbaImage {
         let mut buffer = ImageBuffer::new(width, height);
-        let w = width.div(2) as f32;
-        let h = height.div(2) as f32;
+        let w = width.div(2) as f64;
+        let h = height.div(2) as f64;
         let pt = self.zoom_reciprocal() / h;
         let tx = self.center_x() - pt * w;
         let ty = self.center_y() + pt * h;
         for (x, y, pixel) in buffer.enumerate_pixels_mut() {
-            let dx = pt * x as f32;
-            let dy = pt * y as f32;
+            let dx = pt * x as f64;
+            let dy = pt * y as f64;
             *pixel = self.render_pixel(Complex::new(tx + dx, ty - dy));
         }
         buffer
     }
-    fn render_pixel(&self, c: Complex<f32>) -> Rgba<u8>;
+    fn render_pixel(&self, c: Complex<f64>) -> Rgba<u8>;
 }
 
 #[derive(Copy, Clone, Debug)]
 pub struct EscapeSpeed {
-    pub point: Complex<f32>,
+    pub point: Complex<f64>,
     pub iterations: u32,
     pub is_escaped: bool,
 }
 
 impl EscapeSpeed {
-    pub fn tint_by_max(&self, magnification: f32) -> Rgba<u8> {
-        let t = (self.iterations as f32 - self.point.norm().log2().log2()) / magnification;
+    pub fn tint_by_max(&self, magnification: f64) -> Rgba<u8> {
+        let t = (self.iterations as f64 - self.point.norm().log2().log2()) / magnification;
         color((2.0 * t + 0.5) % 1.0)
     }
     pub fn tint(&self) -> Rgba<u8> {
-        let t = (self.iterations as f32 - self.point.norm().log2().log2()) / (self.iterations as f32);
+        let t = (self.iterations as f64 - self.point.norm().log2().log2()) / (self.iterations as f64);
         color((2.0 * t + 0.5) % 1.0)
     }
 }
 
-pub fn color(depth: f32) -> Rgba<u8> {
+pub fn color(depth: f64) -> Rgba<u8> {
     let a = Rgb([0.5, 0.5, 0.5]);
     let b = Rgb([0.5, 0.5, 0.5]);
     let c = Rgb([1.0, 1.0, 1.0]);

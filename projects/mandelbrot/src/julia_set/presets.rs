@@ -14,19 +14,19 @@ impl Default for JuliaSet {
 }
 
 impl JuliaSet {
-    pub fn with_center(self, x: f32, y: f32) -> Self {
+    pub fn with_center(self, x: f64, y: f64) -> Self {
         Self { center: Complex::new(x, y), ..self }
     }
     pub fn with_max_iterations(self, iterations: u32) -> JuliaSet {
         Self { max_iterations: iterations, ..self }
     }
-    pub fn with_tint_coefficient(self, tint_coefficient: f32) -> JuliaSet {
+    pub fn with_tint_coefficient(self, tint_coefficient: f64) -> JuliaSet {
         Self { tint_magnification: tint_coefficient, ..self }
     }
-    pub fn with_shift(self, x: f32, y: f32) -> JuliaSet {
+    pub fn with_shift(self, x: f64, y: f64) -> JuliaSet {
         Self { shift: Complex::new(x, y), ..self }
     }
-    pub fn with_zoom(self, zoom: f32) -> JuliaSet {
+    pub fn with_zoom(self, zoom: f64) -> JuliaSet {
         Self { zoom, ..self }
     }
 }
@@ -34,20 +34,20 @@ impl JuliaSet {
 
 
 impl CanvasRenderer for JuliaSet {
-    fn center_x(&self) -> f32 {
+    fn center_x(&self) -> f64 {
         self.center.re
     }
 
-    fn center_y(&self) -> f32 {
+    fn center_y(&self) -> f64 {
         self.center.im
     }
 
-    fn zoom_reciprocal(&self) -> f32 {
+    fn zoom_reciprocal(&self) -> f64 {
         self.zoom.recip()
     }
 
-    fn render_pixel(&self, c: Complex<f32>) -> Rgba<u8> {
-        self.escape(c).tint_by_max((self.max_iterations as f32).div(self.tint_magnification))
+    fn render_pixel(&self, c: Complex<f64>) -> Rgba<u8> {
+        self.escape(c).tint_by_max((self.max_iterations as f64).div(self.tint_magnification))
     }
 }
 
