@@ -6,8 +6,8 @@ fn ready() {
 }
 
 const MAX_ITERATIONS: u32 = 2048;
-const IMAGE_WIDTH: u32 = 1000;
-const IMAGE_HEIGHT: u32 = 1000;
+const IMAGE_WIDTH: u32 = 1000 * 10;
+const IMAGE_HEIGHT: u32 = 1000 * 10;
 
 
 #[test]
