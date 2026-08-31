@@ -1,31 +1,24 @@
-Rust Template Project
-=====================
+# rs-ddraw
 
-Rust template project for monorepo
+DirectDraw compatibility layer for legacy 2D games, written in Rust.
 
-## Change the initial commit
+Fixes compatibility issues in older DirectDraw-based games on modern Windows: black screen, poor performance, crashes, and broken Alt+Tab.
 
-```shell
-git commit --amend --message "🎂 Project initialized!" --date "2012-12-12"
+## Usage
+
+1. Build the project: `cargo build --release`
+2. Copy `target/release/rs_ddraw.dll` to your game folder and rename it to `ddraw.dll`
+3. Start the game
+
+## Building
+
+Requires Rust nightly and the Windows SDK (32-bit target).
+
+```bash
+rustup target add i686-pc-windows-msvc
+cargo build --release --target i686-pc-windows-msvc
 ```
 
-## Emoji Comment
+## License
 
-| Emoji  | Meaning                      |  
-|--------|------------------------------|  
-| 🎂     | Project initialized!         |  
-| 🎉     | Release new version          |  
-| 🧪🔮   | Experimental code            |   
-| 🔧🐛🐞 | Bug fix                      |  
-| 🔒     | Security fix                 |  
-| 🐣🐤🐥 | Add feature                  |  
-| 📝🎀   | Documentation                |  
-| 🚀     | Performance improve!         |  
-| 🚧     | Work in progress             |  
-| 🚨     | Test coverage improve!       |  
-| 🚥     | CI improve!                  |  
-| 🔥🧨   | Remove code or files         |
-| 🧹     | Code refactor                |
-| 📈     | Add analytics or branch code |
-| 🤖     | Automation fix               |
-| 📦     | Update dependencies          |
+MIT

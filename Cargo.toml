@@ -1,13 +1,42 @@
-[workspace]
-resolver = "2"
-members = ["projects/*"]
-default-members = [
-    "projects/mandelbrot",
-]
-exclude = [
-    "projects/.DS_Store",
-]
+[package]
+name = "rs-ddraw"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+description = "DirectDraw compatibility layer for legacy 2D games"
+
+[lib]
+crate-type = ["cdylib"]
+name = "ddraw"
+
+[dependencies]
+windows-core = "0.62"
+png = "0.17"
+windows = { version = "0.62", features = [
+    "Win32_Graphics_Gdi",
+    "Win32_Graphics_DirectDraw",
+    "Win32_Graphics_Direct3D9",
+    "Win32_Graphics_OpenGL",
+    "Win32_UI_WindowsAndMessaging",
+    "Win32_UI_Input",
+    "Win32_UI_Input_KeyboardAndMouse",
+    "Win32_UI_HiDpi",
+    "Win32_Foundation",
+    "Win32_System_LibraryLoader",
+    "Win32_System_Memory",
+    "Win32_System_Threading",
+    "Win32_System_SystemInformation",
+    "Win32_System_WindowsProgramming",
+    "Win32_System_Performance",
+    "Win32_System_SystemServices",
+    "Win32_System_Diagnostics_Debug",
+    "Win32_System_Registry",
+    "Win32_System_Com",
+    "Win32_Media_Multimedia",
+    "Win32_Media_Audio",
+] }
 
 [profile.release]
 lto = true
 panic = "abort"
+strip = true
